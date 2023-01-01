@@ -4,7 +4,18 @@ class Solution {
 public:
     void rotate(vector<vector<int>>& arr) {
         n = arr.size();
-        for(i = 0; i<n; i++) for(j = 0; j<n; j++) if(j > i) swap(arr[i][j], arr[j][i]);
-        for(j = 0; j<n/2; j++) for(i = 0; i<n; i++) swap(arr[i][j], arr[i][n-1-j]);
+        for(i = 0; i<n; i++)
+            for(j = 0; j<n; j++)
+                arr[i][j] += 1000;
+        
+        for(i = 0; i<n; i++)
+            for(j = 0; j<n; j++)
+                arr[i][j] += ((arr[n-1-j][i])%MAX)*MAX;
+        
+        for(i = 0; i<n; i++)
+            for(j = 0; j<n; j++){
+                arr[i][j] /= MAX;
+                arr[i][j] -= 1000;
+            }
     }
 };
