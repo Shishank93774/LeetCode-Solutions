@@ -19,7 +19,7 @@ public:
         });
         for(int i = 0; i<n; i++) arr[i].id = i;
              
-        auto maxInMin = [](const Job &j, const vector<Job> &arr) ->int{
+        auto maxInMin = [&](const Job &j, const vector<Job> &arr) ->int{
             int s = j.s, l = 0, r = j.id - 1, res = -1;
             while(l<=r){
                 int mid = (l+r)/2;
