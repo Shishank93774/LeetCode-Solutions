@@ -10,12 +10,10 @@ public:
             mx = max(mx, arr[i]);
             sum += arr[i];
             if(arr[i] <= 0) allPos = false;
-            if(arr[i] > 0) allNeg = false;
+            else allNeg = false;
             totSum += arr[i];
             a1 = max(a1, sum);
-            if(sum < 0){
-                sum = 0;
-            }
+            if(sum < 0) sum = 0;
         }
         if(allPos) return totSum;
         if(allNeg) return mx;
@@ -23,9 +21,7 @@ public:
         for(int i = 0; i<n; i++){
             sum += arr[i];
             mn = min(mn, sum);
-            if(sum > 0){
-                sum = 0;
-            }
+            if(sum > 0) sum = 0;
         }
         return max(a1, totSum - mn);
     }
