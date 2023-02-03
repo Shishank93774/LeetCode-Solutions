@@ -1,11 +1,13 @@
+unordered_map<int, string> mp;
+int n, cnt, f, i;
+string ans;
 class Solution {
 public:
     string convert(string str, int numRows) {
         if(numRows == 1) return str; 
-        int n = str.length();
-        unordered_map<int, string> mp;
-        int cnt = 1, f = 1;
-        for(int i = 0; i<n; i++){
+        mp.clear();
+        n = str.length(), cnt = 1, f = 1;
+        for(i = 0; i<n; i++){
             if(cnt == numRows){
                 f = -1;
             }
@@ -15,8 +17,8 @@ public:
             mp[cnt] += str[i];
             cnt += f;
         }
-        string ans = "";
-        for(int i = 1; i<=numRows; i++) ans += mp[i];
+        ans = "";
+        for(i = 1; i<=numRows; i++) ans += mp[i];
         return ans;
     }
 };
