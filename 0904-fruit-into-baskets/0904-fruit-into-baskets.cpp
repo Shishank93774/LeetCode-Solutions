@@ -1,32 +1,14 @@
-struct custom_hash {
-    static uint64_t splitmix64(uint64_t x) {
-    // http://xorshift.di.unimi.it/splitmix64.c
-    x += 0x9e3779b97f4a7c15;
-    x = (x ^ (x >> 30)) * 0xbf58476d1ce4e5b9;
-    x = (x ^ (x >> 27)) * 0x94d049bb133111eb;
-    return x ^ (x >> 31);
-}
-
-size_t operator()(uint64_t x) const {
-    static const uint64_t FIXED_RANDOM = chrono::steady_clock::now().time_since_epoch().count();
-    return splitmix64(x + FIXED_RANDOM);
-}
-};
-
 class Solution {
 public:
     int totalFruit(vector<int>& arr) {
         int ans = 0, i = 0, j = 0, n = arr.size();
-        unordered_map<int, int, custom_hash> mp;
+        unordered_map<int, int> mp;
         while(j<n){
             while(j<n and (mp.size() < 2 or mp.size() <= 2 and mp.find(arr[j]) != mp.end())){ 
-                mp[arr[j]]++;
                 ans = max(ans, j-i+1);
-                j++;
+                mp[arr[j++]]++;
             }
-            mp[arr[i]]--; 
-            if(mp[arr[i]] == 0) mp.erase(arr[i]);
-            i++;
+            mp[arr[i]]--; if(mp[arr[i]] == 0) mp.erase(arr[i]); i++;
         }
         return ans;
     }
