@@ -46,10 +46,11 @@ class Solution {
     }
 public:
     vector<int> sortArray(vector<int>& nums) {
+        sort(nums.begin(), nums.end());
         // mergeSort(nums, 0, nums.size() - 1); 491ms
         // quickSort(nums, 0, nums.size() - 1); TLE
         // quickSort(nums, 0, nums.size() - 1, true); TLE
-        countSort(nums);
+        // countSort(nums); 113ms
         
         return nums;
     }
