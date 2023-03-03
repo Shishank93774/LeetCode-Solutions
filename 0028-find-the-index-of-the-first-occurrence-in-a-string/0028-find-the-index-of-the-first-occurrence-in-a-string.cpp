@@ -77,19 +77,19 @@ class Solution {
         return -1;
     }
     int kmpAlgo(const string &t, const string &str){
-        vector<int> lsp(m);
+        vector<int> lps(m);
         int prv = 0, i = 1;
         while(i<m){
             if(str[i] == str[prv]){
                 prv++;
-                lsp[i] = prv;
+                lps[i] = prv;
                 i++;
             }else{
                 if(prv == 0){
-                    lsp[i] = 0;
+                    lps[i] = 0;
                     i++;
                 }else{
-                    prv = lsp[prv-1];
+                    prv = lps[prv-1];
                 }
             }
         }
@@ -103,7 +103,7 @@ class Solution {
                 if(strPtr == 0){
                     tPtr++;
                 }else{
-                    strPtr = lsp[strPtr - 1];
+                    strPtr = lps[strPtr - 1];
                 }
             }
         }
