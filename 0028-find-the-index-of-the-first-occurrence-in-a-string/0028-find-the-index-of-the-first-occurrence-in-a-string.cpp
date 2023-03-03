@@ -117,8 +117,8 @@ public:
         // return bruteForce(t, str); // 0ms
         // return rabinKarp(t, str); // 0ms
         // return rabinKarpDoubleHash(t, str); 4ms
-        // return zAlgo(t, str); // 0ms
-        return kmpAlgo(t, str);
+        return zAlgo(t, str); // 0ms
+        // return kmpAlgo(t, str);
         
     }
 };
