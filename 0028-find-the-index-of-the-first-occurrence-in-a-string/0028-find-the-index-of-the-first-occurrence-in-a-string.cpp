@@ -1,5 +1,5 @@
 int n, m;
-const int MOD = 1e9 + 7, RADIX = 26;
+const int MOD = 1e9 + 7, RADIX = 26, RADIX_1 = 26, RADIX_2 = 17, MOD_1 = 1000000033, MOD_2 = 2147483647;
 class Solution {
     int bruteForce(const string &t, const string &str){
         for(int i = 0; i<n; i++){
@@ -35,12 +35,42 @@ class Solution {
         }
         return -1;
     }
+    pair<long, long> hashPair(const string &str) {
+        long hash1 = 0, hash2 = 0;
+        long f1 = 1, f2 = 1;
+        for (int i = m - 1; i >= 0; i--) {
+            hash1 += ((int) (str[i] - 'a') * (f1)) % MOD_1, hash2 += ((int) (str[i] - 'a') * (f2)) % MOD_2;
+            f1 = (f1 * RADIX_1) % MOD_1, f2 = (f2 * RADIX_2) % MOD_2;
+        }
+        return {hash1 % MOD_1, hash2 % MOD_2};
+    }
+    int rabinKarpDoubleHash(const string &t, const string &str){
+        long MAX_WEIGHT_1 = 1, MAX_WEIGHT_2 = 1;
+        for (int i = 0; i < m; i++) 
+            MAX_WEIGHT_1 = (MAX_WEIGHT_1 * RADIX_1) % MOD_1, MAX_WEIGHT_2 = (MAX_WEIGHT_2 * RADIX_2) % MOD_2;
+        
+        pair<long, long> reqHash = hashPair(str);
+        pair<long, long> haveHash = hashPair(t);
+        if(reqHash == haveHash) return 0;
+        for(int i = 1; i<=n-m; i++){
+            haveHash.first = ((haveHash.first * RADIX_1) % MOD_1
+                        - ((int) (t[i - 1] - 'a') * MAX_WEIGHT_1) % MOD_1
+                        + (int) (t[i + m - 1] - 'a') + MOD_1) % MOD_1;
+            haveHash.second = ((haveHash.second * RADIX_2) % MOD_2
+                        - ((int) (t[i - 1] - 'a') * MAX_WEIGHT_2) % MOD_2
+                        + (int) (t[i + m - 1] - 'a') + MOD_2) % MOD_2;
+            if(reqHash == haveHash) return i;
+        }
+        return -1;
+        
+    }
 public:
     int strStr(string t, string str) {
-        // return t.find(str);
+        // return t.find(str); 12ms
         n = t.length(), m = str.length();
         if(m > n) return -1;
         // return bruteForce(t, str); // 0ms
-        return rabinKarp(t, str);
+        // return rabinKarp(t, str); // 0ms
+        return rabinKarpDoubleHash(t, str);
     }
 };
