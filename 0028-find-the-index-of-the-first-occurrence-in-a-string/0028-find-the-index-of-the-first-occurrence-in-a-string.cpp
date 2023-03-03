@@ -114,11 +114,11 @@ public:
         // return t.find(str); 12ms
         n = t.length(), m = str.length();
         if(m > n) return -1;
-        // return bruteForce(t, str); // 0ms
-        // return rabinKarp(t, str); // 0ms
-        // return rabinKarpDoubleHash(t, str); 4ms
-        return zAlgo(t, str); // 0ms
-        // return kmpAlgo(t, str); 0ms
+        // return bruteForce(t, str); // O(nm)
+        // return rabinKarp(t, str); // O(nm)
+        // return rabinKarpDoubleHash(t, str); O(n)
+        return zAlgo(t, str); // O(n+m)
+        // return kmpAlgo(t, str); O(n)
         
     }
 };
