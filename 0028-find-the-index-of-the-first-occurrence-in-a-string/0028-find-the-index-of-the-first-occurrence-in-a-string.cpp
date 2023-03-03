@@ -76,6 +76,39 @@ class Solution {
         for(int i = 0; i<len; i++) if(z[i] == m) return i - m - 1;
         return -1;
     }
+    int kmpAlgo(const string &t, const string &str){
+        vector<int> lsp(m);
+        int prv = 0, i = 1;
+        while(i<m){
+            if(str[i] == str[prv]){
+                prv++;
+                lsp[i] = prv;
+                i++;
+            }else{
+                if(prv == 0){
+                    lsp[i] = 0;
+                    i++;
+                }else{
+                    prv = lsp[prv-1];
+                }
+            }
+        }
+        int tPtr = 0, strPtr = 0;
+        while(tPtr < n){
+            if(t[tPtr] == str[strPtr]){
+                tPtr++;
+                strPtr++;
+                if(strPtr == m) return tPtr - m;
+            }else{
+                if(strPtr == 0){
+                    tPtr++;
+                }else{
+                    strPtr = lsp[strPtr - 1];
+                }
+            }
+        }
+        return -1;
+    }
 public:
     int strStr(string t, string str) {
         // return t.find(str); 12ms
@@ -84,7 +117,8 @@ public:
         // return bruteForce(t, str); // 0ms
         // return rabinKarp(t, str); // 0ms
         // return rabinKarpDoubleHash(t, str); 4ms
-        return zAlgo(t, str);
+        // return zAlgo(t, str); // 0ms
+        return kmpAlgo(t, str);
         
     }
 };
