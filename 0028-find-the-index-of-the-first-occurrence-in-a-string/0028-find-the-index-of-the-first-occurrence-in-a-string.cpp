@@ -64,6 +64,18 @@ class Solution {
         return -1;
         
     }
+    int zAlgo(const string &t, const string &str) {
+        string s = str + "$" + t;
+        int len = s.length();
+        vector<int> z(len);
+        for (int i = 1, l = 0, r = 0; i < len; ++i) {
+            if (i <= r) z[i] = min(r - i + 1, z[i - l]);
+            while (i + z[i] < len && s[z[i]] == s[i + z[i]]) ++z[i];
+            if (i + z[i] - 1 > r) l = i, r = i + z[i] - 1;
+        }
+        for(int i = 0; i<len; i++) if(z[i] == m) return i - m - 1;
+        return -1;
+    }
 public:
     int strStr(string t, string str) {
         // return t.find(str); 12ms
@@ -71,6 +83,8 @@ public:
         if(m > n) return -1;
         // return bruteForce(t, str); // 0ms
         // return rabinKarp(t, str); // 0ms
-        return rabinKarpDoubleHash(t, str);
+        // return rabinKarpDoubleHash(t, str); 4ms
+        return zAlgo(t, str);
+        
     }
 };
