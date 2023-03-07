@@ -2,7 +2,6 @@ class Solution {
 public:
     int maximumCandies(vector<int>& arr, long long k) {
         int n = arr.size();
-        sort(arr.begin(), arr.end(), greater<int>());
         long long l = 0, r = 1e9;
         long long ans = 0;
         while(l<=r){
