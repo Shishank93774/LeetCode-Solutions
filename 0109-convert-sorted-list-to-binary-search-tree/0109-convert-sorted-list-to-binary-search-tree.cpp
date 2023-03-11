@@ -23,16 +23,13 @@
 class Solution {
     TreeNode* helper(ListNode *head, ListNode *tail){
         if(head == tail) return NULL;
-        if(head->next == tail){
-            return new TreeNode(head->val);
-        }
+        if(head->next == tail) return new TreeNode(head->val);
         ListNode *slow = head, *fast = head;
         while(fast != tail and fast->next != tail){
             slow = slow->next;
             fast = fast->next->next;
         }
         return new TreeNode(slow->val, helper(head, slow), helper(slow->next, tail));
-        
     }
 public:
     TreeNode* sortedListToBST(ListNode* head) {
