@@ -19,22 +19,29 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
-unordered_map<int, ListNode *> arr;
+// unordered_map<int, ListNode *> arr;
 class Solution {
-    TreeNode* helper(int l, int r){
-        if(l > r) return NULL;
-        if(l==r) return new TreeNode(arr[l]->val, NULL, NULL);
-        int mid = l + (r - l)/2;
-        return new TreeNode(arr[mid]->val, helper(l, mid - 1), helper(mid + 1, r));
+    TreeNode* helper(ListNode *head, ListNode *tail){
+        if(head == tail) return NULL;
+        if(head->next == tail){
+            return new TreeNode(head->val);
+        }
+        ListNode *slow = head, *fast = head;
+        while(fast != tail and fast->next != tail){
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+        return new TreeNode(slow->val, helper(head, slow), helper(slow->next, tail));
+        
     }
 public:
     TreeNode* sortedListToBST(ListNode* head) {
-        arr.clear();
-        int i = 0;
-        while(head != NULL){
-            arr[i++] = head;
-            head = head->next;
-        }
-        return helper(0, arr.size() - 1);
+        // arr.clear();
+        // int i = 0;
+        // while(head != NULL){
+        //     arr[i++] = head;
+        //     head = head->next;
+        // }
+        return helper(head, NULL);
     }
 };
