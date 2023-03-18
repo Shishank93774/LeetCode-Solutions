@@ -16,6 +16,12 @@ public:
     }
     
     void visit(string url) {
+        DLL *temp = cur->next, *templ = cur->next;
+        while(temp != NULL){
+            templ = temp->next;
+            delete(temp);
+            temp = templ;
+        }
         DLL *newSite = new DLL(url);
         newSite->prev = cur;
         cur->next = newSite;
