@@ -55,9 +55,8 @@ class Solution {
 
         return result.erase(0, min(result.find_first_not_of('0'), result.size() - 1));
     }
-
-    string multiplyHelper(string lhs, string rhs)
-    {
+public:
+    string multiply(string lhs, string rhs) {
         int length = max(lhs.size(), rhs.size());
 
         while (lhs.size() < length)
@@ -74,9 +73,9 @@ class Solution {
         string rhs0 = rhs.substr(0, length / 2);
         string rhs1 = rhs.substr(length / 2, length - length / 2);
 
-        string p0 = multiplyHelper(lhs0, rhs0);
-        string p1 = multiplyHelper(lhs1, rhs1);
-        string p2 = multiplyHelper(add(lhs0, lhs1), add(rhs0, rhs1));
+        string p0 = multiply(lhs0, rhs0);
+        string p1 = multiply(lhs1, rhs1);
+        string p2 = multiply(add(lhs0, lhs1), add(rhs0, rhs1));
         string p3 = subtract(p2, add(p0, p1));
 
         for (int i = 0; i < 2 * (length - length / 2); i++)
@@ -87,9 +86,5 @@ class Solution {
         string result = add(add(p0, p1), p3);
 
         return result.erase(0, min(result.find_first_not_of('0'), result.size() - 1));
-    }
-public:
-    string multiply(string num1, string num2) {
-        return multiplyHelper(num1, num2);
     }
 };
