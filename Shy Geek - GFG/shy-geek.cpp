@@ -46,7 +46,7 @@ public:
     {
         this->shop = s;
     }
-    long long res(int q, map<int, long long> &mp){
+    long long savedBook(int q, map<int, long long> &mp){
         if(mp.find(q) != mp.end()) return mp[q];
         return mp[q] = shop.get(q);
     }
@@ -61,7 +61,7 @@ public:
             long long one = -1;
             while(l <= r){
                 int mid = l + (r - l)/2;
-                long long cost = res(mid, mp);
+                long long cost = savedBook(mid, mp);
                 if(cost > k){
                     r = mid - 1;
                 }else{
