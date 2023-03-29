@@ -17,6 +17,13 @@ class Solution {
             adj[edges[i][0]].push_back(edges[i][1]);
             adj[edges[i][1]].push_back(edges[i][0]);
         }
+        // auto dfs = [&](int src, int d, auto &&dfs) -> void{
+        //     if(dist[src] != INT_MAX) return;
+        //     dist[src] = d;
+        //     for(int nbr: adj[src]) dfs(nbr, d+1);
+        // };
+        // dfs(src, 0, dfs);
+        
         int d = 0;
         while(!qu.empty()){
             int sz = qu.size();
@@ -24,9 +31,7 @@ class Solution {
                 int f = qu.front(); qu.pop();
                 if(dist[f] != INT_MAX) continue;
                 dist[f] = d;
-                for(int nbr: adj[f]){
-                    if(dist[nbr] == INT_MAX) qu.push(nbr);
-                }
+                for(int nbr: adj[f]) qu.push(nbr);
             }
             d++;
         }
