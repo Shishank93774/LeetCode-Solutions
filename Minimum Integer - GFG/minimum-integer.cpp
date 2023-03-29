@@ -31,10 +31,8 @@ public:
 class Solution {
   public:
     int minimumInteger(int N, vector<int> &arr) {
-        // code here
         sort(arr.begin(), arr.end());
-        int req = ceil(1.0*accumulate(arr.begin(), arr.end(), 0ll)/N);
-        return *lower_bound(arr.begin(), arr.end(), req);
+        return *lower_bound(arr.begin(), arr.end(), ceil(1.0*accumulate(arr.begin(), arr.end(), 0ll)/N));
     }
 };
 
