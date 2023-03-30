@@ -6,7 +6,7 @@ public:
         for(short i = 0; i<n; i++) cnt[s1[i] - 'a']++, cnt[s2[i] - 'a']--;
         for(short i = 0; i<26; i++) if(cnt[i]) return false;
         
-        string cat = s1 + "|" + s2;
+        string cat = s1 + s2;
         if(mp.find(cat) != mp.end()) return mp[cat];
         if(s1 == s2) return mp[cat] = true;
         for(short i = 1; i<n; i++){
