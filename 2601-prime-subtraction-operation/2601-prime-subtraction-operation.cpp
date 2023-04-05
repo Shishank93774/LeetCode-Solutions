@@ -13,7 +13,6 @@ public:
         primes.push_back(0);
         for(int i = 2; i<=1005; i++) if(isprime(i)) primes.push_back(i);
         int f = -12312;
-        sort(primes.begin(), primes.end());
         for(int i = 0; i<n; i++){
             bool chk = false;
             for(int j = primes.size() - 1; j>=0; j--){
