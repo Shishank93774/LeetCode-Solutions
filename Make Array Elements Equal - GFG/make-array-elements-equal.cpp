@@ -10,7 +10,7 @@ using namespace std;
 class Solution {
   public:
     long long int minOperations(int N) {
-        return N%2?1ll*N*(N+1)/2 - 1ll*(N+1)/2*(N+1)/2 : 1ll * N/2 * N/2;
+        return (N%2)*(1ll*N*(N+1)/2 - 1ll*(N+1)/2*(N+1)/2) + (!(N%2))*(1ll * N/2 * N/2);
     }
 };
 
