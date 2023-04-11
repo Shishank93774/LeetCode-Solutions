@@ -12,7 +12,7 @@ class Solution{
     //Function to return the count of number of elements in union of two arrays.
     int doUnion(int a[], int n, int b[], int m)  {
         //code here
-        set<int> st(a, a+n);
+        unordered_set<int> st(a, a+n);
         for(int i = 0; i<m; i++) st.insert(b[i]);
         return st.size();
     }
