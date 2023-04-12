@@ -13,14 +13,26 @@ class Solution{
     // l : starting index of the array i.e 0
     // r : ending index of the array i.e size-1
     // k : find kth smallest element and return using this function
+    int pivot(int arr[], int l, int r){
+        int ele = arr[r], pIdx = l;
+        while(l<r){
+            if(arr[l] < ele){
+                swap(arr[pIdx++], arr[l]);
+            }
+            l++;
+        }
+        swap(arr[r], arr[pIdx]);
+        return pIdx;
+    }
     int kthSmallest(int arr[], int l, int r, int k) {
         //code here
-        priority_queue<int> pqu;
-        while(l<=r){
-            pqu.push(arr[l++]);
-            if(pqu.size() > k) pqu.pop();
+        int p = pivot(arr, l, r);
+        if(p < k-1){
+            return kthSmallest(arr, p+1, r, k);
+        }else if(p > k-1){
+            return kthSmallest(arr, l, p-1, k);
         }
-        return pqu.top();
+        return arr[p];
     }
 };
 
