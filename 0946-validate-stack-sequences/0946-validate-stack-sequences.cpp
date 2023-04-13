@@ -1,8 +1,8 @@
 class Solution {
 public:
     bool validateStackSequences(vector<int>& pushed, vector<int>& popped) {
-        unordered_map<int, int> mp;
         int n = pushed.size();
+        int mp[n+1];
         for(int i = 0; i<n; i++) mp[pushed[i]] = i;
         int ptr = mp[popped[0]];
         pushed[ptr] = -1;
