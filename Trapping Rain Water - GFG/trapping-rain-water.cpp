@@ -13,7 +13,6 @@ class Solution{
         // code here
         long long ans = 0;
         int mxIndx = max_element(arr, arr + n) - arr; // max Element's index
-        long long mxVal = arr[mxIndx]; // Getting max Element.
         pair<long long, int> cur = {arr[0], 0};// the first value to start with.
         long long extraArea = 0; 
         // stores the extra area which has to be deleted.
