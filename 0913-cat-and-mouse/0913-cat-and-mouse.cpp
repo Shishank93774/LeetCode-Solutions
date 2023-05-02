@@ -1,4 +1,4 @@
-const int N = 101;
+const int N = 51;
 int dp[6*N+100][N+1][N+1];
 
 class Solution {
