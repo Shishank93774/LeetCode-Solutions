@@ -10,7 +10,6 @@ public:
             double last = 0;
             if(i+maxPts < k) last = dp[i+maxPts];
             else if(i+maxPts <= n) last = 1.0;
-            else last = 0.0;
             windowSum += dp[i] - last;
         }
         
