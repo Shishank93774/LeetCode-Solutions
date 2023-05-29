@@ -1,7 +1,7 @@
 class ParkingSystem {
-    int rem[3];
+    vector<int> rem;
 public:
-    ParkingSystem(int big, int medium, int small){rem[0] = big, rem[1] = medium, rem[2] = small;}
+    ParkingSystem(int big, int medium, int small){rem = {big, medium, small};}
     bool addCar(int t) { return rem[--t] > 0 ? rem[t]-- : 0;}
 };
 
