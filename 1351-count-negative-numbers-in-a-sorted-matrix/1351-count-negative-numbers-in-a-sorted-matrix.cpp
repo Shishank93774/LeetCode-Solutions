@@ -24,13 +24,20 @@ public:
         // }
         // return ans;
         
-        int prvNeg = m-1;
-        for(int i = 0; i<n; i++){
-            int idx = bs(grid[i], 0, prvNeg);
-            if(idx != -1){
-                ans += (n-i)*(prvNeg - idx + 1);
-                prvNeg = idx-1;
-            }
+        // int prvNeg = m-1;
+        // for(int i = 0; i<n; i++){
+        //     int idx = bs(grid[i], 0, prvNeg);
+        //     if(idx != -1){
+        //         ans += (n-i)*(prvNeg - idx + 1);
+        //         prvNeg = idx-1;
+        //     }
+        // }
+        // return ans;
+        
+        int r = -1, c = m-1;
+        while(++r<n){
+            while(c>=0 and grid[r][c] < 0) c--;
+            ans += (m-1-c);
         }
         return ans;
     }
