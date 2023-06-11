@@ -1,32 +1,31 @@
 class SnapshotArray {
-    vector<vector<int> > lastModified; // stores when was this index last modified?
-    int curSnap; // cur snap version
-    map<int, int> modifications; // what are the modifications (extra changes) done at this snap?
-    vector<map<int, int> > snaps; // snapshot's history
+    vector<vector<int> > lastModified;
+    int curSnap;
+    map<int, int> modifications;
+    vector<map<int, int> > snaps;
 public:
     SnapshotArray(int length) {
-        lastModified.assign(length, {}); // all indexes weren't modified, hence empty array{} for each one.
+        lastModified.assign(length, {});
         curSnap = 0;
     }
     
     void set(int idx, int val) {
-        modifications[idx] = val; // modify value at index idx
-        if(lastModified[idx].size() == 0 or lastModified[idx].back() != curSnap) // to store distinct snap values for a particular index.
-            lastModified[idx].push_back(curSnap); // adds this snap version to modification history of idx.
+        modifications[idx] = val;
+        if(lastModified[idx].size() == 0 or lastModified[idx].back() != curSnap)
+            lastModified[idx].push_back(curSnap);
     }
     
     int snap() {
-        snaps.push_back(modifications);  // add this modification history to our snapshot's history
-		modifications.clear(); // clear modification history for next snap.
+        snaps.push_back(modifications); modifications.clear();
         return curSnap++;
     }
     
     int get(int idx, int snap_id) {
-        auto &vec = lastModified[idx]; // getting modification history of idx
-        auto it = upper_bound(vec.begin(), vec.end(), snap_id); // searching for correct modification history of idx
+        auto &vec = lastModified[idx];
+        auto it = upper_bound(vec.begin(), vec.end(), snap_id);
         if(it == vec.begin()) return 0; // Wasn't modified
-        it = prev(it); 
-        int lstSnap = *it; // last modification was done at this snap
+        it = prev(it); // last modification was done at this snap
+        int lstSnap = *it;
         return snaps[lstSnap][idx];        
     }
 };
