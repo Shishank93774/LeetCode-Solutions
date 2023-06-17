@@ -6,8 +6,7 @@ int dp[N][N][2];
 class Solution {
     int rec(int i, int j, bool where, vector<int> &a1, vector<int> &a2){
         if(i == a1.size()) return 0;
-        if(dp[i][j][where] != -1) return dp[i][j][where];
-        int &ans = dp[i][j][where] = 1e9;
+        
         int prev = INT_MIN;
         if(where){
             prev = a2[j];
@@ -16,6 +15,8 @@ class Solution {
         }
         j = upper_bound(a2.begin() + j, a2.end(), prev) - a2.begin();
         
+        if(dp[i][j][where] != -1) return dp[i][j][where];
+        int &ans = dp[i][j][where] = 1e9;
         
         if(j<a2.size()) ans = rec(i+1, j, true, a1, a2) + 1;
         if(prev < a1[i]) ans = min(ans, rec(i+1, j, false, a1, a2));
