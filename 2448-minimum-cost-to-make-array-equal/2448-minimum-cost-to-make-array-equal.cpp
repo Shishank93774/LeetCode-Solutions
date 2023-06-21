@@ -18,7 +18,7 @@ public:
         
         auto fun = [&](int mid)->long long{
             long long res = 0;
-            for(int i = 0; i<n; i++) res += 1ll*abs(vec[i].first - mid)*vec[i].second;
+            for(int i = 0; i<n; i++) res += 1ll*abs(arr[i] - mid)*cost[i];
             return res;
         };
         return fun(mid);
