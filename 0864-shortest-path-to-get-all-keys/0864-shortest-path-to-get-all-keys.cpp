@@ -1,36 +1,34 @@
 struct point{
-    int x, y;
-    int mv;
-    int has;
+    int x, y; // my co-ordinates
+    int mv; // moves I have done so far
+    int has; // what keys I have 
 };
 
-int dxy[4][2] = {{0, 1}, {0, -1}, {-1, 0}, {1, 0}};
+int dxy[4][2] = {{0, 1}, {0, -1}, {-1, 0}, {1, 0}}; // traversing helper
 
 class Solution {
 public:
     int shortestPathAllKeys(vector<string>& arr) {
-        queue<point> qu;
-        int tot = 0;
+        queue<point> qu; // for BFS
+        int tot = 0; // no. of keys
         int n = arr.size(), m = arr[0].size();
-        set<int> vis[n][m];
-        vector<char> keys;
-        map<char, int> mp;
+        set<int> vis[n][m]; // visited array
+        vector<char> keys; // what keys do I have?
+        map<char, int> mp; // position of key in the keys array
 
         for(int i = 0; i<n; i++){
             for(int j = 0; j<m; j++){
-                vis[i][j].clear();
-                if(arr[i][j] == '@') qu.push({i, j, 0, 0});
+                vis[i][j].clear(); 
+                if(arr[i][j] == '@') qu.push({i, j, 0, 0}); // initial node
                 else if('a' <= arr[i][j]  and arr[i][j] <= 'z'){
-                    mp[arr[i][j]] = keys.size();
-                    keys.push_back(arr[i][j]);
+                    mp[arr[i][j]] = keys.size(); // this key is in this position
+                    keys.push_back(arr[i][j]); // adding key to keys
                     tot++;
                 }
             }
         }
-        int req = (1<<tot) - 1;
+        int req = (1<<tot) - 1; // WHY?
         int sz = keys.size();
-        for(int i = 0; i<sz; i++)
-            keys.push_back(keys[i] - 32);
         
         while(!qu.empty()){
             point p = qu.front(); qu.pop();
