@@ -12,7 +12,7 @@ public:
         queue<point> qu; // for BFS
         int tot = 0; // no. of keys
         int n = arr.size(), m = arr[0].size();
-        set<int> vis[n][m]; // visited array
+        unordered_set<int> vis[n][m]; // visited array
         vector<char> keys; // what keys do I have?
         map<char, int> mp; // position of key in the keys array
 
@@ -28,13 +28,12 @@ public:
             }
         }
         int req = (1<<tot) - 1; // WHY?
-        int sz = keys.size();
         
         while(!qu.empty()){
             point p = qu.front(); qu.pop();
             int x = p.x, y = p.y, mv = p.mv, has = p.has;
             
-            if((has&req) == req) return mv;
+            if((has&req) == req) return mv; // WHY?
             
             if(vis[x][y].find(has) != vis[x][y].end()) continue;
             vis[x][y].insert(has);
@@ -43,18 +42,18 @@ public:
                 int tx = x + dxy[i][0], ty = y + dxy[i][1];
                 if(tx < 0 or ty <0 or tx>=n or ty >= m or arr[tx][ty] == '#') continue;
                 char ch = arr[tx][ty];
-                if(ch == '.' or ch == '@') qu.push({tx, ty, mv+1, has});
-                else if('a' <= ch and ch <= 'z'){
+                if(ch == '.' or ch == '@') qu.push({tx, ty, mv+1, has}); // Case 1
+                else if('a' <= ch and ch <= 'z'){ // Case 2
                     int pos = mp[ch];
-                    qu.push({tx, ty, mv+1, has|(1<<pos)});
-                }else{
+                    qu.push({tx, ty, mv+1, has|(1<<pos)}); // Making the i-th bit SET 
+                }else{ // Case 3
                     int pos = mp[ch+32];
-                    if(has&(1<<pos)){
+                    if(has&(1<<pos)){  // Checking the i-th bit
                         qu.push({tx, ty, mv+1, has});
                     }
                 }
             }
         }
-        return -1;
+        return -1; // No Answer
     }
 };
