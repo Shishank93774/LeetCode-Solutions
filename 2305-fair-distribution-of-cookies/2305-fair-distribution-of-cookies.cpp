@@ -10,6 +10,7 @@ class Solution {
             cur[j] += arr[i];
             rec(i+1, arr, cur, n, k, avg);
             cur[j] -= arr[i];
+            if(cur[j] == 0) break;
         }
     }
 public:
