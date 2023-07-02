@@ -3,7 +3,7 @@ public:
     int maximumRequests(int n, vector<vector<int>>& requests) {
         int m = requests.size();
         int ans = 0;
-        for(int mask = 0; mask<(1<<m); mask++){
+        for(int mask = (1<<m)-1; mask > 0; mask--){
             vector<int> deg(n, 0);
             int cnt = 0;
             for(int i = 0; i<m; i++){
@@ -15,6 +15,7 @@ public:
             }
             bool chk = true;
             for(int i = 0; i<n; i++) if(deg[i] != 0) {chk = false; break;}
+            // if(chk) return cnt;
             if(chk) ans = max(ans, cnt);
         }
         return ans;
