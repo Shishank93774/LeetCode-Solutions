@@ -7,6 +7,7 @@ public:
                 ans = max(ans, j-i);
                 has0 += (arr[j++] == 0);
             }
+            j = max(j, i + 1);
             has0 -= (arr[i++] == 0);
         }
         return ans;
