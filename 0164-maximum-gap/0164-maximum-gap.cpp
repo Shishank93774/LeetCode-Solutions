@@ -55,7 +55,8 @@ public:
     }
     int maximumGap(vector<int>& nums) {
         ans = 0;
-        radixsort(nums, nums.size());
+        // radixsort(nums, nums.size());
+        sort(nums.begin(), nums.end());
         printArray(nums, nums.size());
         return ans;
     }
