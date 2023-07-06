@@ -13,6 +13,9 @@ class Solution{
 	    long long ans = 0;
 	    sort(arr, arr+n);
 	    for(int i = 0; i+2<n; i++){
+	        
+	        if(arr[i]+arr[i+1]+arr[i+2] >= sum) break;
+	        
 	        for(int j = n-1; i+1<j; j--){
 	            long long rem = sum - arr[i] - arr[j];
 	            int l = i+1, r = j-1;
