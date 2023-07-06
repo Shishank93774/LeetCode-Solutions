@@ -19,6 +19,7 @@ class Solution{
             for(int j = 3; j<n; j++){
                 int l = i+1, r = j-1;
                 int tot = arr[i] + arr[j];
+                int req = x - tot;
                 while(l<r){
                     if(tot + arr[l] + arr[r] < x) l++;
                     else if(tot + arr[l] + arr[r] > x) r--;
