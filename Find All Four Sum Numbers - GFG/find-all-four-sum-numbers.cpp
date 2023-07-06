@@ -12,25 +12,39 @@ class Solution{
     // k : the quadruple sum required
     vector<vector<int> > fourSum(vector<int> &arr, int x) {
         // Your code goes here
-        set<vector<int> > ans;
+        vector<vector<int> > ans;
         int n = arr.size();
         sort(arr.begin(), arr.end());
         for(int i = 0; i+3<n; i++){
-            for(int j = 3; j<n; j++){
+            
+            if(i>0 and arr[i]==arr[i-1]) continue;
+            if(1ll*arr[i]+arr[i+1]+arr[i+2]+arr[i+3]>x) break;
+            if(1ll*arr[i]+arr[n-3]+arr[n-2]+arr[n-1]<x) continue;
+            
+            for(int j = i+3; j<n; j++){
+                
+                if(j+1<n and arr[j]==arr[j+1]) continue;
+                if(1ll*arr[i]+arr[i+1]+arr[i+2]+arr[j]>x) break;
+                if(1ll*arr[i]+arr[j-2]+arr[j-1]+arr[j]<x) continue;
+                
                 int l = i+1, r = j-1;
-                int tot = arr[i] + arr[j];
-                int req = x - tot;
+                int tot = 1ll*arr[i] + arr[j];
+                int req = 1ll*x - tot;
+                
                 while(l<r){
-                    if(tot + arr[l] + arr[r] < x) l++;
-                    else if(tot + arr[l] + arr[r] > x) r--;
+                    if(1ll*tot + arr[l] + arr[r] < x) l++;
+                    else if(1ll*tot + arr[l] + arr[r] > x) r--;
                     else{
-                        ans.insert({arr[i], arr[l], arr[r], arr[j]});
+                        ans.push_back({arr[i], arr[l], arr[r], arr[j]});
                         l++; r--;
+                        while(l<r and l<j and arr[l-1]==arr[l]) l++;
+                        while(l<r and r>i and arr[r]==arr[r+1]) r--;
                     }
                 }
             }
         }
-        return vector<vector<int> >(ans.begin(), ans.end());
+        sort(ans.begin(), ans.end());
+        return ans;
     }
 };
 
