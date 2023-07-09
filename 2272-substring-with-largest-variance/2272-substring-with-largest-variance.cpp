@@ -3,8 +3,9 @@ public:
     int largestVariance(string &str) {
         int n = str.size();
         int ans = 0;
-        for(char f = 'a'; f<='z'; f++){
-            for(char s = 'a'; s<='z'; s++){
+        unordered_set<char> st(str.begin(), str.end());
+        for(char f : st){
+            for(char s : st){
                 if(f == s) continue;
                 int i = 0;
                 int cntf = 0, cnts = 0;
@@ -22,8 +23,8 @@ public:
             }
         }
         reverse(str.begin(), str.end());
-        for(char f = 'a'; f<='z'; f++){
-            for(char s = 'a'; s<='z'; s++){
+        for(char f : st){
+            for(char s : st){
                 if(f == s) continue;
                 int i = 0;
                 int cntf = 0, cnts = 0;
