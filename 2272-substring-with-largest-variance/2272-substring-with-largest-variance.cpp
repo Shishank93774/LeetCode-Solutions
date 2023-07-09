@@ -5,6 +5,7 @@ public:
         int ans = 0;
         for(char f = 'a'; f<='z'; f++){
             for(char s = 'a'; s<='z'; s++){
+                if(f == s) continue;
                 for(int run = 1; run<=2; run++){
                     int i = 0;
                     int cntf = 0, cnts = 0;
