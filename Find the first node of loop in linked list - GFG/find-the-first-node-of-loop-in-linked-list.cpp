@@ -47,14 +47,20 @@ class Solution
     int findFirstNode(Node* head)
     {
         // your code here
-        unordered_set<Node *> st;
-        while(head != NULL){
-            if(st.find(head) != st.end()) return head->data;
-            st.insert(head);
-            head = head->next;
+        if(head == NULL or head->next == NULL) return -1;
+        Node *slow = head, *fast = head;
+        while(fast and fast->next){
+            slow = slow->next;
+            fast = fast->next->next;
+            if(fast == slow) break;
         }
-        return -1;
-        
+        if(slow != fast) return -1;
+        slow = head;
+        while(fast != slow){
+            fast = fast->next;
+            slow = slow->next;
+        }
+        return slow->data;
     }
 };
 
