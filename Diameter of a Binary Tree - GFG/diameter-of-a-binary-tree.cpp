@@ -90,26 +90,27 @@ struct Node
         left = right = NULL;
     }
 }; */
-int ans;
+
+
+struct point{
+    int ht, dia;
+};
+
+struct point diaHelper(Node *root){
+    if(root == NULL) return {0, 0};
+    struct point lh = diaHelper(root->left), rh = diaHelper(root->right);
+    int throughMe = 1 + lh.ht +  rh.ht;
+    int fromChild = max(lh.dia, rh.dia);
+    return { 1 + max(lh.ht, rh.ht), max(throughMe, fromChild)};
+}
+
 class Solution {
-    int getHeight(Node* root){
-        if(root == NULL) return 0;
-        return 1 + max(getHeight(root->left), getHeight(root->right));
-    }
-    void helper(Node* root){
-        if(root == NULL) return;
-        int cur = 1;
-        int lh = getHeight(root->left), rh = getHeight(root->right);
-        ans = max(ans, 1 + lh + rh);
-        helper(root->left);
-        helper(root->right);
-    }
   public:
     // Function to return the diameter of a Binary Tree.
     int diameter(Node* root) {
-        ans = 1;
-        helper(root);
-        return ans;
+        // Your code here
+        auto p = diaHelper(root);
+        return p.dia;
     }
 };
 
