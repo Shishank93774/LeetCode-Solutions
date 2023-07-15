@@ -27,7 +27,7 @@ public:
             
             int &ans = dp[i][k] = rec(i+1, k, rec);
             
-            int j = nxt(arr[i][1], i);
+            int j = nxt(arr[i][1], i+1);
             
             ans = max(ans, arr[i][2] + rec(j, k-1, rec));
             return ans;
