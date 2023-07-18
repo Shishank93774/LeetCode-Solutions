@@ -20,7 +20,7 @@ class LRUCache {
 public:
     int sz;
     LNode *head, *tail;
-    map<int, LNode*> mp;
+    unordered_map<int, LNode*> mp;
     LRUCache(int capacity) {
         sz = capacity;
         head = new LNode(0, 0);
