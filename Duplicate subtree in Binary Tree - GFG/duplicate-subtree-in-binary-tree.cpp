@@ -92,6 +92,7 @@ class Solution {
     unordered_set<string> st;
     bool ans;
     string dfs(Node *root){
+        if(ans) return "";
         if(root == NULL) return "";
         if(root->left == NULL and root->right == NULL) return to_string(root->data);
         string cur = dfs(root->left) + "|" + to_string(root->data) + "|" + dfs(root->right);
