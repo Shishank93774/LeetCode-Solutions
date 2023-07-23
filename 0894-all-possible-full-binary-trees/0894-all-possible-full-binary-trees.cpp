@@ -9,9 +9,8 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
+unordered_map<int, vector<TreeNode*> > mp;
 class Solution {
-    unordered_map<int, vector<TreeNode*> > mp;
-    bool pre;
     vector<TreeNode *> dfs(int n){
         if(n%2 == 0) return {};        
         if(mp.find(n) != mp.end()) return mp[n];
@@ -32,16 +31,8 @@ class Solution {
         return mp[n] = ans;
     }
 public:
-    Solution(){
-        pre = false;
-    }
-    
     vector<TreeNode*> allPossibleFBT(int n) {
         if(n%2 == 0) return {};
-        if(!pre){
-            dfs(19);
-            pre = true;
-        }
         return dfs(n);
         
     }
