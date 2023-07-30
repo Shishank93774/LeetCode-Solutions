@@ -2,6 +2,11 @@ class Solution {
 public:
     int strangePrinter(string &str) {
         
+        string tmp;
+        for(char ch: str){
+            if(!tmp.size() or tmp.back() != ch) tmp.push_back(ch);
+        }
+        str = tmp;
         int n = str.size();
         vector<vector<int> > dp(n, vector<int>(n, -1));
         auto rec = [&](int l, int r, auto &&rec)->int{
