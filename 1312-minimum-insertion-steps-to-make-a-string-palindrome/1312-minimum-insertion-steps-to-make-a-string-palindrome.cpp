@@ -1,21 +1,22 @@
-const int N = 501;
-int dp[N][N];
 class Solution {
-    int rec(int l, int r, const string &str){
-        if(l >= r) return 0;
-        if(l+1 == r) return !(str[l] == str[r]);
-        if(dp[l][r] != -1) return dp[l][r];
-        int &ans = dp[l][r] = INT_MAX;
-        ans = 1 + rec(l+1, r, str);
-        ans = min(ans, 1 + rec(l, r-1, str));
-        if(str[l] == str[r]){
-            ans = min(ans, rec(l+1, r-1, str));
-        }
-        return ans;
-    }
 public:
-    int minInsertions(string s) {
-        memset(dp, -1, sizeof dp);
-        return rec(0, s.size()-1, s);
+    int minInsertions(string &str) {
+        
+        int n = str.size();
+        vector<vector<int> > dp(n, vector<int>(n, -1));
+        auto rec = [&](int i, int j, auto &&rec)->int{
+            if(i >= j) return 0;
+            if(i+1 == j) return (str[i] != str[j]);
+            
+            if(dp[i][j] != -1) return dp[i][j];
+            
+            if(str[i] == str[j]) return dp[i][j] = rec(i+1, j-1, rec);
+            
+            int a1 = 1 + rec(i+1, j, rec);
+            int a2 = 1 + rec(i, j-1, rec);
+            
+            return dp[i][j] = min(a1, a2);
+        };
+        return rec(0, n-1, rec);
     }
 };
