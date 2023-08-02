@@ -1,24 +1,22 @@
 class Solution {
-    int rec(int i, int remk, bool buyed, vector<int> &arr, int n, vector<vector<vector<int> > > &dp){
-        if(i == n) return 0;
-        if(remk == 0) return 0;
-        
-        if(dp[i][remk][buyed] != -1) return dp[i][remk][buyed];
-        
-        int a1 = rec(i+1, remk, buyed, arr, n, dp);
-        int a2 = 0;
-        if(buyed){
-            a2 = arr[i] + rec(i+1, remk-1, false, arr, n, dp);
-        }else{
-            a2 = -arr[i] + rec(i+1, remk, true, arr, n, dp);
-        }
-        
-        return dp[i][remk][buyed] = max(a1, a2);
-    }
 public:
     int maxProfit(vector<int>& arr) {
         int n = arr.size();
-        vector<vector<vector<int> > > dp(n, vector<vector<int> >(2+1, vector<int>(2, -1)));
-        return rec(0, 2, false, arr, n, dp);
+        vector<vector<vector<int> > > dp(n+1, vector<vector<int> >(2+1, vector<int>(2, 0)));
+        
+        for(int i = n-1; i>=0; i--){
+            for(int remk = 0; remk<=2; remk++){
+                if(i == n) dp[i][remk][0] = dp[i][remk][1] = 0;
+                else if(remk == 0) dp[i][remk][0] = dp[i][remk][1] = 0;
+                else{
+                    dp[i][remk][0] = dp[i+1][remk][0];
+                    dp[i][remk][1] = dp[i+1][remk][1];
+                    dp[i][remk][0] = max(dp[i][remk][0], - arr[i] + dp[i+1][remk][1]);
+                    dp[i][remk][1] = max(dp[i][remk][1], arr[i] + dp[i+1][remk-1][0]);
+                }
+            }
+        }
+        
+        return dp[0][2][0];
     }
 };
