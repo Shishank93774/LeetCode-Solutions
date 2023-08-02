@@ -8,21 +8,22 @@ class Solution {
     int editDistance(string &s, string &t) {
         // Code here
         int n = s.size(), m = t.size();
-        vector<vector<int> >dp(n, vector<int>(m, -1));
-        auto rec = [&](int i, int j, auto &&rec)->int{
-            if(i == n) return (m-j); // all insert
-            if(j == m) return (n-i); // all delete
-            
-            if(dp[i][j] != -1) return dp[i][j];
-            if(s[i] == t[j]) return dp[i][j] = rec(i+1, j+1, rec);
-            int a1 = 1 + rec(i+1, j+1, rec); // replace
-            int a2 = 1 + rec(i+1, j, rec); // delete
-            int a3 = 1 + rec(i, j+1, rec); // insert
-            
-            return dp[i][j] = min({a1, a2, a3});
-        };
+        vector<vector<int> >dp(n+1, vector<int>(m+1, -1));
         
-        return rec(0, 0, rec);
+        for(int i = n; i>=0; i--){
+            for(int j = m; j>=0; j--){
+                if(i == n) dp[i][j] = m-j;
+                else if(j == m) dp[i][j] = n-i;
+                else{
+                    if(s[i] == t[j]) dp[i][j] = dp[i+1][j+1];
+                    else{
+                        dp[i][j] = 1 + min({dp[i+1][j+1], dp[i+1][j], dp[i][j+1]});
+                    }
+                }
+            }
+        }
+        
+        return dp[0][0];
     }
 };
 
