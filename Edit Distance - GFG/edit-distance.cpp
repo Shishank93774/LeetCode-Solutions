@@ -3,26 +3,26 @@
 using namespace std;
 
 // } Driver Code Ends
-
-const int N = 101;
-int dp[N][N];
-
 class Solution {
-    int rec(int i, int j, const string &s, const string &t){
-        if(i == s.size()) return (t.size() - j);
-        if(j == t.size()) return (s.size() - i);
-        
-        if(dp[i][j] != -1) return dp[i][j];
-        int &ans = dp[i][j] = INT_MAX;
-        ans = min({ans, 1 + rec(i+1, j+1, s, t), 1 + rec(i, j+1, s, t), 1 + rec(i+1, j, s, t)});
-        if(s[i] == t[j]) ans = min(ans, rec(i+1, j+1, s, t));
-        return ans;
-    }
   public:
-    int editDistance(string s, string t) {
+    int editDistance(string &s, string &t) {
         // Code here
-        memset(dp, -1, sizeof dp);
-        return rec(0, 0, s, t);
+        int n = s.size(), m = t.size();
+        vector<vector<int> >dp(n, vector<int>(m, -1));
+        auto rec = [&](int i, int j, auto &&rec)->int{
+            if(i == n) return (m-j); // all insert
+            if(j == m) return (n-i); // all delete
+            
+            if(dp[i][j] != -1) return dp[i][j];
+            if(s[i] == t[j]) return dp[i][j] = rec(i+1, j+1, rec);
+            int a1 = 1 + rec(i+1, j+1, rec); // replace
+            int a2 = 1 + rec(i+1, j, rec); // delete
+            int a3 = 1 + rec(i, j+1, rec); // insert
+            
+            return dp[i][j] = min({a1, a2, a3});
+        };
+        
+        return rec(0, 0, rec);
     }
 };
 
