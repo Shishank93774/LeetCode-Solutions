@@ -4,34 +4,33 @@ using namespace std;
 
 // } Driver Code Ends
 // User function template for C++
-const int N = 1e3+3;
-int dp[N][N];
-
 class Solution{
-    bool rec(int i, int j, const string &wild, const string &pat, int n, int m){
-        if(i == n and j == m) return true;
-        if(dp[i][j] != -1) return dp[i][j];
-        int &ans = dp[i][j] = 0;
-        if(wild[i] == pat[j]){
-            ans = rec(i+1, j+1, wild, pat, n, m);
-        }else{
-            if(wild[i] == '?'){
-                ans = rec(i+1, j+1, wild, pat, n, m);
-            }else if(wild[i] == '*'){
-                for(int k = j; k<=m; k++){
-                    ans = (ans or rec(i+1, k, wild, pat, n, m));
-                    if(ans) break;
-                }
-            }
-        }
-        return ans;
-    }
     public:
-    bool match(string wild, string pattern)
+    bool match(string &s, string &t)
     {
         // code here
-        memset(dp, -1, sizeof dp);
-        return rec(0, 0, wild, pattern, wild.size(), pattern.size());
+        int n = s.size(), m = t.size();
+        vector<int> down(m+1, false), cur(m+1, false);
+        down[m] = true;
+        for(int i = n-1; i>=0; i--){
+           if(s[i] == '*') cur[m] = down[m];
+           for(int j = m-1; j>=0; j--){
+              cur[j] = false;
+              if(s[i] == t[j]) cur[j] = down[j+1];
+              else{
+                 if(s[i] == '?') cur[j] = down[j+1];
+                 else if(s[i] == '*'){
+                    for(int k = j; k<=m; k++){
+                       cur[j] = cur[j] or down[k];
+                       if(cur[j]) break;
+                    }
+                 }
+              }
+           }
+           down = cur;
+        }
+        
+        return down[0];
     }
 };
 
@@ -40,13 +39,14 @@ int main()
 {
     int t;
     cin>>t;
-    while(t--)
+    while(t-->0)
     {
         string wild, pattern;
         cin>>wild>>pattern;
         
         Solution ob;
-        if(ob.match(wild, pattern))
+        bool x=ob.match(wild, pattern);
+        if(x)
         cout<<"Yes\n";
         else
         cout<<"No\n";
