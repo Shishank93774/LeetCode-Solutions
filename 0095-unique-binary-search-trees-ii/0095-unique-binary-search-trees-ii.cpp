@@ -9,49 +9,24 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
-bool done = false;
-vector<TreeNode *> ans[9];
-TreeNode* insertNode(TreeNode *root, int v){
-    if(root == NULL) return new TreeNode(v);
-    if(root->val < v){
-        root->right = insertNode(root->right, v);
-    }else{
-        root->left = insertNode(root->left, v);
-    }
-    return root;
-}
-TreeNode* buildTree(vector<int> &arr){
-    TreeNode *root = NULL;
-    for(int x: arr) root = insertNode(root, x);
-    
-    return root;
-}
 class Solution {
-    string traversal(TreeNode *root){
-        if(root == NULL) return "$";
-        string ans = "(" + traversal(root->left) + to_string(root->val) + "|" + traversal(root->right) + ")";
-        return ans;
-    }
-    void pre(){
-        for(int n = 1; n<=8; n++){
-            vector<int> arr(n);
-            for(int i = 0; i<n; i++) arr[i] = i+1;
-            
-            unordered_set<string> st;
-            do{
-                TreeNode *root = buildTree(arr);
-                string hash = traversal(root);
-                if(st.find(hash) == st.end()) ans[n].push_back(root);
-                st.insert(hash);
-            }while(next_permutation(arr.begin(), arr.end()));
-        }
-    }
 public:
-    vector<TreeNode*> generateTrees(int n) {
-        if(!done){
-            pre();
-            done = true;
+    vector<TreeNode*> generateTrees(int r, int l = 1) {
+        vector<TreeNode*> ans;
+        if(l > r) return {NULL};
+			
+		// Consider every number in range [l, r] as root 
+        for(int i=l; i<=r; i++) {
+			// generate all possible trees in range [l,i)
+            for(auto left: generateTrees(i-1, l)) {
+                
+				// generate all possible trees in range (i,r]
+                for(auto right: generateTrees(r, i+1))
+				
+					// make new trees with i as the root
+                    ans.push_back(new TreeNode(i, left, right));
+            }
         }
-        return ans[n];
+        return ans;
     }
 };
