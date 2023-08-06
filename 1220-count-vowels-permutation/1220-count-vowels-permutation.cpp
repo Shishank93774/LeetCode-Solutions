@@ -4,23 +4,22 @@ class Solution {
 public:
     int countVowelPermutation(int n) {
         
-        vector<vector<int> > dp(n, vector<int>(5, -1));
-        auto rec = [&](int i, int prv, auto &&rec)->int{
-            if(i == n) return 1;
-            
-            if(dp[i][prv] != -1) return dp[i][prv];
-            int ans = 0;
-            for(int nxt: nxtPos[prv]){
-                ans += rec(i+1, nxt, rec);
-                ans %= mod;
-            }
-            
-            return dp[i][prv] = ans;
-        };
+        vector<vector<int> > dp(n+1, vector<int>(5, 0));
         
+        for(int p = 0; p<5; p++) dp[n][p] = 1;
+        for(int i = n-1; i>=0; i--){
+            for(int p = 0; p<5; p++){
+                int ans = 0;
+                for(int nxt: nxtPos[p]){
+                    ans += dp[i+1][nxt];
+                    ans %= mod;
+                }
+                dp[i][p] = ans;
+            }
+        }
         int ans = 0;
         for(int p = 0; p<5; p++){
-            ans += rec(1, p, rec);
+            ans += dp[1][p];
             ans %= mod;
         }
         return ans;
