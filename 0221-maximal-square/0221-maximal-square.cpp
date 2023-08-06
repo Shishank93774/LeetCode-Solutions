@@ -3,7 +3,7 @@ public:
     int maximalSquare(vector<vector<char>> &arr) {
         
         int n = arr.size(), m = arr[0].size();
-        
+        /*
         int pre[n+1][m+1];
         
         for(int i = 0; i<=n; i++) pre[i][0] = 0;
@@ -39,6 +39,24 @@ public:
         }
         
         return (l-1)*(l-1);
-        
+        */
+        vector<vector<int> > dp(n, vector<int>(m, -1));
+        auto rec = [&](int r, int c, auto &&rec)->int{
+            if(r == n-1 and c == m-1) return (arr[r][c] == '1');
+            if(r == n or c == m or arr[r][c] == '0') return 0;
+            
+            if(dp[r][c] != -1) return dp[r][c];
+            int ans = 1 + min({rec(r+1, c, rec), rec(r, c+1, rec), rec(r+1, c+1, rec)});
+            
+            return dp[r][c] = ans;
+        };
+        int ans = 0;
+        for(int i = 0; i<n; i++){
+            for(int j = 0; j<m; j++){
+                int curMx = rec(i, j, rec);
+                ans = max(ans, curMx*curMx);
+            }
+        }
+        return ans;
     }
 };
