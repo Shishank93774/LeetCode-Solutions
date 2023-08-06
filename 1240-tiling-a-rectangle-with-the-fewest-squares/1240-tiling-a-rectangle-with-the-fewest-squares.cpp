@@ -13,12 +13,12 @@ public:
             if(dp[n][m] != -1) return dp[n][m];
             
             int ans = 1e9;
-            for(int cut = 1; cut<n; cut++){
+            for(int cut = 1; cut<=n/2; cut++)
                 ans = min(ans, 1 + rec(cut, m, rec) + rec(n-cut, m, rec));
-            }
-            for(int cut = 1; cut<m; cut++){
+            
+            for(int cut = 1; cut<=m/2; cut++)
                 ans = min(ans, 1 + rec(n, cut, rec) + rec(n, m-cut, rec));
-            }
+            
             return dp[n][m] = ans;
         };
         
