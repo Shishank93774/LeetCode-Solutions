@@ -3,21 +3,17 @@ public:
     int minimumTotal(vector<vector<int>> &arr) {
         
         int n = arr.size();
-        vector<vector<int> > dp(n, vector<int>(n, -1e9));
+        vector<vector<int> > dp(n+1, vector<int>(n+1, 0));
         
-        auto rec = [&](int r, int c, auto &&rec)->int{
-            if(r == n) return 0;
-            
-            if(dp[r][c] != -1e9) return dp[r][c];
-            
-            int ans = rec(r+1, c, rec);
-            ans = min(ans, rec(r+1, c+1, rec));
-            
-            ans += arr[r][c];
-            
-            return dp[r][c] = ans;
-        };
+        for(int r = n-1; r>=0; r--){
+            for(int c = r; c>=0; c--){
+                int ans = dp[r+1][c];
+                ans = min(ans, dp[r+1][c+1]);
+                ans += arr[r][c];
+                dp[r][c] = ans;
+            }
+        }
         
-        return rec(0, 0, rec);
+        return dp[0][0];
     }
 };
