@@ -6,7 +6,7 @@ public:
         auto rec = [&](int eggLeft, int floorsLeft, auto &&rec)->int{
             if(floorsLeft == 0) return dp[eggLeft][floorsLeft] = 0;
             if(floorsLeft == 1) return dp[eggLeft][floorsLeft] = 1;
-            if(eggLeft == 0) return dp[eggLeft][floorsLeft] = 0;
+            if(eggLeft == 0) return dp[eggLeft][floorsLeft] = 1e9;
             if(eggLeft == 1) return dp[eggLeft][floorsLeft] = floorsLeft;
             
             if(dp[eggLeft][floorsLeft] != -1) return dp[eggLeft][floorsLeft];
