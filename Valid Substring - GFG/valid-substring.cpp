@@ -10,19 +10,42 @@ class Solution {
   public:
     int findMaxLen(string str) {
         // code here
-        stack<int> stk;
-        stk.push(-1);
+        // stack<int> stk;
+        // stk.push(-1);
+        // int ans = 0, n = str.size();
+        // for(int i = 0; i<n; i++){
+        //     if(str[i] == '(') stk.push(i);
+        //     else{
+        //         stk.pop();
+        //         if(stk.empty()) stk.push(i);
+        //         else{
+        //             ans = max(ans, i - stk.top());
+        //         }
+        //     }
+        // }
+        // return ans;
+        int open = 0, close = 0;
         int ans = 0, n = str.size();
         for(int i = 0; i<n; i++){
-            if(str[i] == '(') stk.push(i);
-            else{
-                stk.pop();
-                if(stk.empty()) stk.push(i);
-                else{
-                    ans = max(ans, i - stk.top());
-                }
+            if(str[i] == '(') open++;
+            else close++;
+            if(open == close){
+                ans = max(ans, 2*open);
+            }else if(close > open){
+                open = close = 0;
             }
         }
+        open = 0, close = 0;
+        for(int i = n-1; i>=0; i--){
+            if(str[i] == '(') open++;
+            else close++;
+            if(open == close){
+                ans = max(ans, 2*open);
+            }else if(close < open){
+                open = close = 0;
+            }
+        }
+        
         return ans;
     }
 };
