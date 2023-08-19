@@ -10,7 +10,7 @@
  * };
  */
 map<TreeNode *, int> mp;
-int dp[2001][2][2];
+int dp[1001][2][2];
 class Solution {
     int rec(TreeNode* root, bool watching = false, bool forced = false){
         if(root == NULL){
@@ -23,15 +23,12 @@ class Solution {
 
         if(dp[idx][watching][forced] != -1) return dp[idx][watching][forced];
         
-        int ans = 1e9;
-        if(forced){
-            ans = 1 + rec(root->left, true) + rec(root->right, true);
-        }else{
+        int ans = ans = 1 + rec(root->left, true) + rec(root->right, true);
+;
+        if(!forced){
             if(watching){
-                ans = rec(root->left, false) + rec(root->right, false);
-                ans = min(ans, 1 + rec(root->left, true) + rec(root->right, true));
+                ans = min(ans, rec(root->left, false) + rec(root->right, false));
             }else{
-                ans = 1 + rec(root->left, true) + rec(root->right, true);
                 int forceLeft = 0 + rec(root->left, false, true) + rec(root->right, false);
                 int forceRight = 0 + rec(root->left, false) + rec(root->right, false, true);
                 ans = min({ans, forceLeft, forceRight});
