@@ -25,12 +25,12 @@ class Solution {
     char ub = (th?s2[i]:'z');
     
     for(char ch = lb; ch <= ub; ch++){
-        
-        int nxtlen = len;
-        while(nxtlen > 0 and evil[nxtlen] != ch)
-            nxtlen = lps[nxtlen-1];
-        if(ch == evil[nxtlen]) nxtlen++;
-        
+        // MOST IMPORTANT PART
+            int nxtlen = len;
+            while(nxtlen > 0 and evil[nxtlen] != ch)
+                nxtlen = lps[nxtlen-1];
+            if(ch == evil[nxtlen]) nxtlen++;
+        // END
         ans += rec(i+1, (tl&(ch == lb)), (th&(ch == ub)), nxtlen, s1, s2, evil, n);
         ans %= mod;
     }
