@@ -1,25 +1,26 @@
-const int N = 204+4;
-int dp[N][N];
 class Solution {
-    bool rec(int i, int j, const string &a, const string &b, const string &c){
-        if(i+j == c.size()) return true;
-        if(i>a.size() or j>b.size()) return false;
-        if(dp[i][j] != -1) return dp[i][j];
-        int &ans = dp[i][j];
-        ans = false;
-        if(i<a.size() and j<b.size() and a[i] == c[i+j] and b[j] == c[i+j]){
-            ans = rec(i+1, j, a, b, c) | rec(i, j+1, a, b, c);
-        }else if(i<a.size() and a[i] == c[i+j]){
-            ans = rec(i+1, j, a, b, c);
-        }else if(j<b.size() and b[j] == c[i+j]){
-            ans = rec(i, j+1, a, b, c);
-        }else return false;
-	    return ans;
-    }
 public:
-    bool isInterleave(string s1, string s2, string s3) {
-        if(s1.size() + s2.size() != s3.size()) return false;
-        memset(dp, -1, sizeof dp);
-	    return rec(0, 0, s1, s2, s3);
+    bool isInterleave(string a, string b, string c) {
+        if(a.size() + b.size() != c.size()) return false;
+        vector<int> down(b.size()+1), cur(b.size()+1);
+        for(int i = a.size(); i>=0; i--){
+            for(int j = b.size(); j>=0; j--){
+                if(i+j == c.size()){
+                    cur[j] = true;
+                }else{
+                    int ans = false;
+                    if(a[i] == c[i+j] and b[j] == c[i+j]){
+                        ans = down[j] | cur[j+1];
+                    }else if(a[i] == c[i+j]){
+                        ans = down[j];
+                    }else if(b[j] == c[i+j]){
+                        ans = cur[j+1];
+                    }else ans = false;
+                    cur[j] = ans;
+                }
+            }
+            down = cur;
+        }
+        return down[0];
     }
 };
