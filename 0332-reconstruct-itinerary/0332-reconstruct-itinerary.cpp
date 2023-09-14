@@ -1,28 +1,24 @@
 class Solution {
-    void dfs(string src, map<string, set<string> > &mp, map<pair<string, string>, int> &freq, vector<string> &ans, int n){
-        if(ans.size() == (n+1)) return;
-        for(const string &nbr: mp[src]){
-            if(freq[{src, nbr}] == 0) continue;
-            freq[{src, nbr}]--;
-            ans.push_back(nbr);
-            dfs(nbr, mp, freq, ans, n);
-            if(ans.size() == (n+1)) return;
-            ans.pop_back();
-            freq[{src, nbr}]++;
+    unordered_map<string, priority_queue<string, vector<string>, greater<string> > > mp;
+    vector<string> ans;
+
+    void dfs(string src){
+        auto &edges = mp[src];
+        while(!edges.empty()){
+            string nbr = edges.top(); edges.pop();
+            dfs(nbr);
         }
+        ans.push_back(src);
     }
 public:
     vector<string> findItinerary(vector<vector<string>>& tickets) {
-        map<string, set<string> > mp;
-        map<pair<string, string>, int> freq;
+        mp.clear();
+        ans.clear();
         for(auto &t: tickets){
-            mp[t[0]].insert(t[1]);
-            freq[{t[0], t[1]}]++;
+            mp[t[0]].push(t[1]);
         }
-        int n = tickets.size();
-        vector<string> ans;
-        ans.push_back("JFK");
-        dfs("JFK", mp, freq, ans, n);
+        dfs("JFK");
+        reverse(ans.begin(), ans.end());
         return ans;
     }
 };
