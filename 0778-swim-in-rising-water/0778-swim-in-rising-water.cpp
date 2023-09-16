@@ -9,7 +9,7 @@ public:
         vector<vector<int> > dp(n, vector<int>(m, 1e9));
         
         pqu.push({arr[0][0], 0, 0});
-        dp[0][0] = 0;
+        dp[0][0] = arr[0][0];
         while(!pqu.empty()){
             auto f = pqu.top(); pqu.pop();
             
