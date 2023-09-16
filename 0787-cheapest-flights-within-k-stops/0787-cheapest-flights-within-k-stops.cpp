@@ -6,7 +6,7 @@ public:
         k++;
         dist[src] = 0;
         while(k--){
-            for(auto it: flights){
+            for(auto &it: flights){
                 int u = it[0], v = it[1], w = it[2];
                 if(dist[u] != INT_MAX){
                     if(tmp[v] > dist[u] + w)
