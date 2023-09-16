@@ -4,15 +4,16 @@ public:
     int minimumObstacles(vector<vector<int>>& arr) {
         int n = arr.size(), m = arr[0].size();
         
-        priority_queue<vector<int>, vector<vector<int> >, greater<vector<int> > > pqu;
+        deque<vector<int> > qu;
         
-        pqu.push({arr[0][0], 0, 0});
+        qu.push_back({arr[0][0], 0, 0});
         vector<vector<int> > dp(n, vector<int>(m, 1e9));
         
         dp[0][0] = arr[0][0];
         
-        while(!pqu.empty()){
-            auto f = pqu.top(); pqu.pop();
+        while(!qu.empty()){
+            auto f = qu.front(); 
+            qu.pop_front();
             int w = f[0], x = f[1], y = f[2];
             
             if(x == n-1 and y == m-1){
@@ -24,7 +25,11 @@ public:
                 if(tx<0 or ty<0 or tx>=n or ty>=m) continue;
                 if(dp[tx][ty] > w + arr[tx][ty]){
                     dp[tx][ty] = w + arr[tx][ty];
-                    pqu.push({dp[tx][ty], tx, ty});
+                    if(arr[tx][ty]){
+                        qu.push_back({w+1, tx, ty});
+                    }else{
+                        qu.push_front({w, tx, ty});
+                    }
                 }
             }
         }
