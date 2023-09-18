@@ -6,7 +6,7 @@ class Solution {
         
         queue<pair<int, int> > qu;
         qu.push({sr, sc});
-        vector<vector<bool> > vis(n, vector<bool>(m, false));
+        vector<vector<char> > vis(n, vector<char>(m, 0));
         vis[sr][sc] = 1;
         int d = 0;
         while(!qu.empty()){
