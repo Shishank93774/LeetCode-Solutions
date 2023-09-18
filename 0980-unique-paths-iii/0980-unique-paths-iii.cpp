@@ -1,34 +1,39 @@
+int dxy[5] = {0, 1, 0, -1, 0};
+
 class Solution {
-public:
-    int cnt=0,c=0;
-    void dfs(vector<vector<int>>& grid,int x,int y,int c){
-        if(x<0 || x>=grid.size() || y<0 || y>=grid[0].size() || grid[x][y]==-1)
-            return;
-        if(grid[x][y]==2){
-            if(c==0)
-                cnt++;
+    int n, m, ans;
+    
+    void dfs(int x, int y, int left, vector<vector<int> > &arr){
+        
+        if(arr[x][y] == 2){
+            ans += (left == 0);
             return;
         }
-        grid[x][y]=-1;
-        dfs(grid,x+1,y,c-1), dfs(grid,x-1,y,c-1), dfs(grid,x,y+1,c-1), dfs(grid,x,y-1,c-1);
-        grid[x][y]=0;
-
+        arr[x][y] = -1;
+        for(int i = 0; i<4; i++){
+            int tx = x + dxy[i], ty = y + dxy[i+1];
+            if(tx<0 or ty<0 or tx>=n or ty>=m or arr[tx][ty] == -1) continue;
+            dfs(tx, ty, left-1, arr);
+        }
+        arr[x][y] = 0;
     }
     
-    int uniquePathsIII(vector<vector<int>>& grid) {
-        int n=grid.size(),m=grid[0].size();
-        int x,y;
-        for(int i=0;i<n;i++){
-            for(int j=0;j<m;j++){
-                if(grid[i][j]==1){
-                    x=i;
-                    y=j;
-                }else if(grid[i][j]==0){
-                    c++;
+    
+public:
+    int uniquePathsIII(vector<vector<int>>& arr) {
+        n = arr.size(), m = arr[0].size();
+        int tot = -1;
+        int r = 0, c = 0;
+        for(int i = 0; i<n; i++){
+            for(int j = 0; j<m; j++){
+                tot += (arr[i][j] != -1);
+                if(arr[i][j] == 1){
+                    r = i, c = j;
                 }
             }
         }
-        dfs(grid,x,y,c+1);
-        return cnt;
-    };
+        ans = 0;
+        dfs(r, c, tot, arr);
+        return ans;
+    }
 };
