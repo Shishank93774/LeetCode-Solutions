@@ -1,16 +1,20 @@
 class Solution {
-    void rec(int i, vector<int> &arr, int n, set<vector<int> > &st){
-        if(i == n-1) st.insert(arr);
-        for(int j = i;j<n; j++){
+    void rec(int i, vector<int> &arr, int n, vector<vector<int> > &ans){
+        if(i == n-1) {ans.push_back(arr); return;}
+        unordered_set<int> done;
+        for(int j = i; j<n; j++){
+            if(done.count(arr[j])) continue;
+            done.insert(arr[j]);
             swap(arr[i], arr[j]);
-            rec(i+1, arr, n, st);
+            rec(i+1, arr, n, ans);
             swap(arr[i], arr[j]);
         }
     }
 public:
     vector<vector<int>> permuteUnique(vector<int>& arr) {
-        set<vector<int> > st;
-        rec(0, arr, arr.size(), st);
-        return vector<vector<int> >(st.begin(), st.end());
+        vector<vector<int> > ans;
+        sort(arr.begin(), arr.end());
+        rec(0, arr, arr.size(), ans);
+        return ans;
     }
 };
