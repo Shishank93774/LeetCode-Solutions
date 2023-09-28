@@ -1,7 +1,6 @@
 class Solution {
 public:
-    vector<vector<int>> permute(vector<int>& arr) {
-        
+    vector<vector<int>> permute(vector<int>& arr) { 
         vector<vector<int> > ans;
         int n = arr.size();
         auto rec = [&](int i, auto &&rec)->void{
