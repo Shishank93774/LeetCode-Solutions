@@ -1,27 +1,26 @@
 class Solution {
-    bool isPali(string &str){
-        int l = 0, r = str.length() - 1;
+    bool isPalindrome(const string &str, int l, int r){
         while(l<r) if(str[l++] != str[r--]) return false;
         return true;
     }
-    void rec(int i, int n, string &str, vector<string> cur, vector<vector<string> > &ans){
-        if(i == n){
-            ans.push_back(cur);
+    void rec(int i, const string &str, vector<string> &till, vector<vector<string> > &ans){
+        if(i == str.size()){
+            ans.push_back(till);
             return;
         }
-        for(int j = i; j<n; j++){
-            string s = str.substr(i, j-i+1);
-            if(isPali(s)){
-                cur.push_back(s);
-                rec(j+1, n, str, cur, ans);
-                cur.pop_back();
+        for(int j = i; j<str.size(); j++){
+            if(isPalindrome(str, i, j)){
+                till.push_back(str.substr(i, j-i+1));
+                rec(j+1, str, till, ans);
+                till.pop_back();
             }
         }
     }
 public:
     vector<vector<string>> partition(string s) {
         vector<vector<string> > ans;
-        rec(0, s.length(), s, {}, ans);
+        vector<string> tmp;
+        rec(0, s, tmp, ans);
         return ans;
     }
 };
