@@ -1,23 +1,34 @@
 class Solution {
 public:
     bool checkInclusion(string s1, string s2) {
-        vector<int> req(26, 0);
-        for(char ch: s1) req[ch-'a']++;
-        int n = s1.size(), m = s2.size(), i = 0, j = 0;
-        vector<int> tmp(26, 0);
-        while(i<m){
-            while(j<m and j-i < n){
-                tmp[s2[j] - 'a']++;
-                j++;
+        unordered_map<char, int> req, cur;
+        for(char c: s1) req[c]++;
+        int n = s1.size(), m = s2.size();
+        for(int i = 0; i<min(n, m); i++) cur[s2[i]]++;
+        bool ok = true;
+        if(req.size() == cur.size()){
+            for(auto it: req){
+                if(req[it.first] != cur[it.first]){
+                    ok = false;
+                }
             }
-            bool chk = true;
-            for(int x = 0; x<26; x++) if(tmp[x] != req[x]){
-                chk = false;
-                break;
+            if(ok) return true;
+        }
+        for(int i = n; i<m; i++){
+            cur[s2[i-n]]--;
+            if(cur[s2[i-n]] == 0) cur.erase(s2[i-n]);
+            cur[s2[i]]++;
+            bool ok = true;
+            if(req.size() == cur.size()){
+                for(auto it: req){
+                    if(req[it.first] != cur[it.first]){
+                        ok = false; break;
+                    }
+                }
+                if(ok){
+                    return true;
+                }
             }
-            if(chk) return chk;
-            tmp[s2[i] - 'a']--;
-            i++;
         }
         return false;
     }
