@@ -7,9 +7,8 @@ class Solution {
         if(vis[i][j][taken]) return dp[i][j][taken];
         
         long long ans = rec(i+1, j, taken, arr, brr, n, m);
-        for(int k = j; k<m; k++){
-            ans = max(ans, 1ll*arr[i]*brr[k] + rec(i+1, k+1, true, arr, brr, n, m));
-        }
+        ans = max(ans, rec(i, j+1, taken, arr, brr, n, m));
+        ans = max(ans, arr[i]*brr[j] + rec(i+1, j+1, true, arr, brr, n, m));
         vis[i][j][taken] = true;
         return dp[i][j][taken] = ans;
     }
