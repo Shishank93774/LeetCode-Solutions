@@ -6,8 +6,7 @@ public:
         int ans = 0;
         
         auto isSimilar = [&](int i, int j) ->bool{
-            string s = strs[i], t = strs[j];
-            if(s.size() != t.size()) return false;
+            const string s = strs[i], t = strs[j];
             int sz = s.size(), diff = 0;
             for(int i = 0; i<sz; i++){
                 diff += (s[i] != t[i]);
