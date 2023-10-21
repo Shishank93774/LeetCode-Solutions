@@ -4,19 +4,20 @@ public:
         int n = arr.size();
         
         int ans = arr[0];
-        
-        priority_queue<pair<int, int> > pqu;
-        pqu.push({arr[0], 0});
-        
-        for(int i = 1; i<n; i++){
-            while(!pqu.empty() and i - pqu.top().second > k) pqu.pop();
+        deque<int> dqu;
+        vector<int> dp(n, -1e9);
+
+        for(int i = 0; i<n; i++){
+            int ex = (dqu.empty()?0:max(0, dp[dqu.front()]));
+            dp[i] = arr[i] + ex;
+            ans = max(ans, dp[i]);
             
-            int cur = max(arr[i], arr[i] + pqu.top().first);
-            pqu.push({cur, i});
-            ans = max(ans, cur);
+            while(!dqu.empty() and dp[dqu.back()] <= dp[i]) dqu.pop_back();
+            
+            dqu.push_back(i);
+            while(i - dqu.front() + 1 > k) dqu.pop_front();
+            
         }
-        
         return ans;
-        
     }
 };
