@@ -15,7 +15,7 @@ public:
             while(!dqu.empty() and dp[dqu.back()] <= dp[i]) dqu.pop_back();
             
             dqu.push_back(i);
-            while(i - dqu.front() + 1 > k) dqu.pop_front();
+            if(i - dqu.front() + 1 > k) dqu.pop_front();
             
         }
         return ans;
