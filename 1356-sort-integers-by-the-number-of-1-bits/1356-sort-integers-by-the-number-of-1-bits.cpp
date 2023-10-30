@@ -1,4 +1,11 @@
-#define set_bits(x) __builtin_popcountll(x)
+char set_bits(int x){
+    char ans = 0;
+    while(x>0){
+        ans++;
+        x &= (x-1);
+    }
+    return ans;
+}
 class Solution {
 public:
     vector<int> sortByBits(vector<int>& arr) {
