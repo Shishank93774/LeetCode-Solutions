@@ -10,27 +10,34 @@
  * };
  */
 class Solution {
-    unordered_map<int, int> mp;
+    vector<int> ans;
+    int mx = 0, cur = 0, val = 0;
     void dfs(TreeNode *root){
         if(root == NULL) return;
-        mp[root->val]++;
-        dfs(root->left), dfs(root->right);
+        
+        dfs(root->left);
+        
+        int rv = root->val;
+        if(rv == val){
+            cur++;
+        }else{
+            cur = 1;
+            val = rv;
+        }
+        
+        if(cur > mx){
+            ans.clear();
+            ans.push_back(val);
+            mx = cur;
+        }else if(cur == mx){
+            ans.push_back(val);
+        }
+        
+        dfs(root->right);
     }
 public:
     vector<int> findMode(TreeNode* root) {
-        mp.clear();
         dfs(root);
-        vector<int> ans;
-        int mx = 0;
-        for(auto it: mp){
-            if(it.second > mx){
-                ans.clear();
-                ans.push_back(it.first);
-            }else if(it.second == mx){
-                ans.push_back(it.first);
-            }
-            mx = max(mx, it.second);
-        }
         return ans;
     }
 };
