@@ -1,33 +1,34 @@
+const int INF = 1e9;
 class Graph {
-    vector<vector<pair<int, int> > > adj;
-    int V;
+    int graph[101][101];
+    int n;
 public:
     Graph(int n, vector<vector<int>>& edges) {
-        V = n;
-        adj.resize(n);
+        this->n = n;
+        for(int i = 0; i<n; i++) for(int j = 0; j<n; j++) graph[i][j] = ((i==j)?0:INF);
         for(int i = 0; i<edges.size(); i++){
-            adj[edges[i][0]].push_back({edges[i][1], edges[i][2]});
+            int u = edges[i][0], v = edges[i][1], w = edges[i][2];
+            graph[u][v] = w;
         }
+        for(int k = 0; k<n; k++)
+            for(int i = 0; i<n; i++)
+                for(int j = 0; j<n; j++)
+                    if(graph[i][k] != INF and graph[k][j] != INF)
+                        graph[i][j] = min(graph[i][j], graph[i][k] + graph[k][j]);
+        
     }
     
     void addEdge(vector<int> edge) {
-        adj[edge[0]].push_back({edge[1], edge[2]});
+        int u = edge[0], v = edge[1], w = edge[2];
+        for(int i = 0; i<n; i++)
+            for(int j = 0; j<n; j++)
+                if(graph[i][u] != INF and graph[v][j] != INF)
+                    graph[i][j] = min(graph[i][j], graph[i][u] + w + graph[v][j]);
     }
     
     int shortestPath(int node1, int node2) {
-        priority_queue<pair<int, int>, vector<pair<int, int> >, greater<pair<int, int> > > pqu;
-        pqu.push({0, node1});
-        vector<int> dist(V+1, INT_MAX);
-        while(!pqu.empty()){
-            auto pr = pqu.top(); pqu.pop();
-            if(pr.second == node2) return pr.first;
-            if(dist[pr.second] < pr.first) continue;
-            dist[pr.second] = pr.first;
-            for(auto nbrPr: adj[pr.second]){
-                if(1ll*nbrPr.second + pr.first < 1ll*dist[nbrPr.first]) pqu.push({nbrPr.second + pr.first, nbrPr.first});
-            }
-        }
-        return -1;
+        int w = graph[node1][node2];
+        return w==INF?-1:w;
     }
 };
 
