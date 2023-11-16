@@ -1,4 +1,4 @@
-bool vis[(1<<17)];
+bool vis[17];
 
 class Solution {
 public:
@@ -9,7 +9,7 @@ public:
             int num = 0;
             for(int i = n-1; i>=0; i--)
                 if(s[i] == '1') num += (1<<(n-1-i));
-            vis[num] = true;
+            if(num < 17) vis[num] = true;
         }
         
         for(int i = 0; i<17; i++){
