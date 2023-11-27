@@ -1,32 +1,32 @@
-const int arr[4][3] = {{1,1,1},{1,1,1},{1,1,1},{0,1,0}};
-const int dir[8][2] = {{-2,-1},{-2,1},{-1,2},{1,2},{2,-1},{2,1},{-1,-2},{1,-2}};
-const int mod = 1e9+7;
-int dp[4][3][5001];
+vector<int> adj[10] = {{5, 7}, {6, 8}, {3, 7},
+                       {2, 8, 9}, {}, {0, 6, 9},
+                       {1, 5}, {0, 2}, {1, 3},
+                               {3, 5}         };
+const int mod = 1e9+7, N = 5001;
+int dp[N][10];
+bool chk = false;
 class Solution {
-public:
-    int knightDialer(int mv) {
-        memset(dp, -1, sizeof dp);
-        int n = 4, m = 3;
-        auto rec = [&](int x, int y, int rem, auto &&rec){
-            if(x<0 or y<0 or x>=n or y>=m or rem<0 or arr[x][y] == 0) return 0;
-            if(rem == 0) return 1;
-            
-            if(dp[x][y][rem] != -1) return dp[x][y][rem];
-            int ans = 0;
-            for(int i = 0; i<8; i++){
-                ans = (ans + rec(x+dir[i][0], y+dir[i][1], rem-1, rec))%mod;
-            }
-            
-            return dp[x][y][rem] = ans;
-        };
-        
-        int ans = 0;
-        for(int i = 0; i<n; i++){
-            for(int j = 0; j<m; j++){
-                if(arr[i][j]) ans = (ans + rec(i, j, mv-1, rec))%mod;
-            }
+    long long rec(int n, int pos){
+        if(n == 0) return 1;
+        if(dp[n][pos] != -1) return dp[n][pos];
+        long long ans = 0ll;
+        for(int next: adj[pos]){
+            ans += rec(n-1, next);
+            ans %= mod;
         }
-        
+        return dp[n][pos] = ans;
+    }
+public:
+    int knightDialer(int n) {
+        if(!chk){
+            memset(dp, -1, sizeof dp);
+            chk = true;
+        }
+        long long ans = 0;
+        for(int i = 0; i<10; i++) {
+            ans += rec(n-1, i);
+            ans %= mod;
+        }
         return ans;
     }
 };
