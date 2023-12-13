@@ -4,11 +4,10 @@ public:
         vector<int> cur(1, 1);
         for(int i = 0; i<rowIndex; i++){
             vector<int> next_row(cur.size() + 1, 0);
-            for(int j = 0; j<cur.size(); j++){
-                next_row[j] += cur[j];
-                next_row[j+1] += cur[j];
+            for(int j = cur.size()-1; j>0; j--){
+                cur[j] += cur[j-1];
             }
-            cur = next_row;
+            cur.push_back(1);
         }
         
         return cur;
