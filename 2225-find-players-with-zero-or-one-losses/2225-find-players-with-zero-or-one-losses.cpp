@@ -2,7 +2,7 @@ class Solution {
 public:
     vector<vector<int>> findWinners(vector<vector<int>>& matches) {
         vector<vector<int> > ans;
-        set<int> winners, losers;
+        unordered_set<int> winners, losers;
         set<int> a1, a2;
         for(vector<int> &v: matches){
             int w = v[0], l = v[1];
