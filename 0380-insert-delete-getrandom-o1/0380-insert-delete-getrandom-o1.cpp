@@ -1,3 +1,12 @@
+#pragma GCC optimize (-O3, -flto, -ffast-math, -march=native, -mtune=native)
+auto init = []()
+{ 
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+    return 'c';
+}();
+
 mt19937 rnd(chrono::high_resolution_clock::now().time_since_epoch().count());
 int getRandomNumber(int l, int r){
    uniform_int_distribution<int> dist(l, r);
