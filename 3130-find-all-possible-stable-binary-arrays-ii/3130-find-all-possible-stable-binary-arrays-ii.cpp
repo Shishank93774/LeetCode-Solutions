@@ -50,11 +50,8 @@ class Solution {
         
         if(ans != -1) return ans;
         
-        if(prv == 0){
-            ans = pref_rng(z-LIM, o, z-1, o, 1);
-        }else{
-            ans = pref_rng(z, o-LIM, z, o-1, 0);
-        }
+        ans = pref_rng(z-(1-prv)*LIM, o-prv*LIM, z-(1-prv), o-prv, (1-prv));
+        
         return ans;
     }
 public:
