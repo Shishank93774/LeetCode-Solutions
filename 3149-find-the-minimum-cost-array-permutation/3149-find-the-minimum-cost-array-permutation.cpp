@@ -1,4 +1,4 @@
-const int N = 15;
+const int N = 14;
 int dp[N][(1<<N)];
 
 class Solution {
@@ -6,7 +6,7 @@ class Solution {
         if(i == sol.size()) return;
         int mn = 1e9, v = -1;
         
-        for(int b = 0; b<sol.size(); b++){
+        for(int b = 1; b<sol.size(); b++){
             if(mask&(1<<b)) continue;
             
             int a = dp[b][mask|(1<<b)] + abs(last - arr[b]);
@@ -18,7 +18,6 @@ class Solution {
         }
         sol[i] = v;
         genSol(i+1, v, mask|(1<<v), arr, sol);
-        
     }
 public:
     vector<int> findPermutation(vector<int>& arr) {
@@ -38,7 +37,7 @@ public:
             
             ans = 1e9;
             
-            for(int b = 0; b<n; b++){
+            for(int b = 1; b<n; b++){
                 if(mask&(1<<b)) continue;
                 ans = min(ans, rec(i+1, b, mask|(1<<b), rec) + abs(last - arr[b]));
             }
