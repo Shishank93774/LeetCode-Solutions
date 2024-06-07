@@ -22,46 +22,20 @@ public:
     int minimumDifference(vector<int>& arr, int k) {
         int n = arr.size();
         
-        SPT st(arr);
+        int ans =1e9;
         
-        int ans = 1e9;
+        set<int> st;
         
         for(int i = 0; i<n; i++){
-            ans = min(ans, abs(arr[i] - k));
-            int l = i, r = n-1;
-            int mn = 1e9;
-            while(l<=r){
-                int m1 = l + (r - l)/3;
-                int m2 = r - (r - l)/3;
-                
-                int f1 = abs(k - st.query(i, m1));
-                int f2 = abs(k - st.query(i, m2));
-                
-                mn = min({mn, f1, f2});
-                if(f1 < f2)
-                    r = m2 - 1;
-                else
-                    l = m1 + 1;
+            set<int> tmp;
+            for(int v: st){
+                tmp.insert(v&arr[i]);
             }
-            
-            l = i, r = n-1;
-            
-            while(l<=r){
-                int m1 = l + (r - l)/3;
-                int m2 = r - (r - l)/3;
-                
-                int f1 = abs(k - st.query(i, m1));
-                int f2 = abs(k - st.query(i, m2));
-                
-                mn = min({mn, f1, f2});
-                if(f1 <= f2)
-                    r = m2 - 1;
-                else
-                    l = m1 + 1;
-            }
-            ans = min(ans, mn);
-            
+            tmp.insert(arr[i]);
+            for(int v: tmp) ans = min(ans, abs(v-k));
+            swap(tmp, st);
         }
+        
         return ans;
     }
 };
