@@ -1,22 +1,5 @@
 # Write your MySQL query statement below
-SELECT A.machine_id, ROUND(((
-                        SELECT SUM(timestamp)
-                        FROM Activity AS A_
-                        WHERE A_.machine_id = A.machine_id AND activity_type = 'end'
-                    )
-                    -
-                    (
-                        SELECT SUM(timestamp)
-                        FROM Activity AS A_
-                        WHERE A_.machine_id = A.machine_id AND activity_type = 'start'
-                    )
-                      )
-                    /
-                    (
-                        SELECT COUNT(machine_id)
-                        FROM Activity AS A_
-                        WHERE A_.machine_id = A.machine_id AND activity_type = 'end'
-                    ), 3)
-                    AS processing_time
-FROM Activity AS A
-GROUP BY A.machine_id;
+SELECT a.machine_id, ROUND(AVG(b.timestamp - a.timestamp), 3) AS processing_time
+FROM Activity AS a, Activity AS b
+WHERE a.machine_id = b.machine_id AND a.process_id = b.process_id AND a.activity_type = 'start' AND b.activity_type = 'end'
+GROUP BY a.machine_id;
