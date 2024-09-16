@@ -33,7 +33,8 @@ struct segTree{
     }
     void update(int idx, int low, int high, int i, int val){  // O(logN)
         if(low == high){
-            seg[idx] = arr[i] = val;
+            if(val < arr[i])
+                seg[idx] = arr[i] = val;
             return;
         }
         int mid = low + (high - low)/2;
@@ -81,9 +82,9 @@ public:
         for(int i = n-1; i>=0; i--){
             int end = reach[i];
             
-            dp[i] = min(dp[i], st.query(0, 0, n, i, end) + 1);
-            st.update(0, 0, n, i, dp[i]);
+            st.update(0, 0, n, i, st.query(0, 0, n, i, end) + 1);
         }
-        return dp[0]==1e9?-1:dp[0];
+        int ans = st.query(0, 0, n, 0, 0);
+        return ans==1e9?-1:ans;
     }
 };
